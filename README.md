@@ -1,0 +1,2 @@
+# ads
+Thinknetika task
