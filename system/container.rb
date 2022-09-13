@@ -7,10 +7,16 @@ class Container < Dry::System::Container
   use :zeitwerk
 
   configure do |config|
-    config.component_dirs.add "posts" do |dir|
+    config.component_dirs.add "services" do |dir|
       dir.memoize = true
 
-      dir.namespaces.add "posts", key: "services.posts"
+      dir.namespaces.add "ads", key: "services.ads"
+    end
+
+    config.component_dirs.add "apps" do |dir|
+      dir.memoize = true
+
+      dir.namespaces.add "http", key: "http"
     end
   end
 end
