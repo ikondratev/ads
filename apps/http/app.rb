@@ -9,5 +9,7 @@ module HTTP
     get "/ping" do
       "PONG"
     end
+
+    get "/", to: Container["http.actions.commands.show_all_ads"]
   end
 end
