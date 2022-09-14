@@ -7,6 +7,10 @@ module Posting
         raw_to_entity(db[:ads].all)
       end
 
+      def create(post)
+        db[:ads].insert(post)
+      end
+
       private
 
       def raw_to_entity(raw_result)

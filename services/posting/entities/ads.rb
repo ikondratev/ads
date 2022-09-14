@@ -9,8 +9,8 @@ module Posting
       attribute :description, Posting::Types::Description
       attribute :user_id, Posting::Types::UserId
       attribute :city, Posting::Types::String
-      attribute :lat, Posting::Types::Float
-      attribute :lon, Posting::Types::Float
+      attribute :lat, Posting::Types::Float.optional
+      attribute :lon, Posting::Types::Float.optional
 
       def to_json(*a)
         to_h.to_json(*a)
