@@ -82,3 +82,6 @@ Style/HashSyntax:
 
 Style/IfUnlessModifier:
   Enabled: false
+
+Naming/MethodParameterName:
+  Enabled: false

@@ -12,7 +12,7 @@ module HTTP
                   command: "services.posting.commands.show_all_posts"
                 ]
 
-        def handle(req, res)
+        def handle(_req, res)
           result = command.call
 
           case result
