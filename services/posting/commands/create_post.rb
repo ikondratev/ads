@@ -1,19 +1,30 @@
 module Posting
   module Commands
     class CreatePost
-      include Dry::Monads[:result, :do]
+      include Dry::Monads[:result, :try, :do]
 
-      include Import[ads_repo: "services.posting.repositories.ads"]
+      include Import[
+                ads_repo: "services.posting.repositories.ads_repo",
+                validation: "validations.create_payload"
+              ]
 
-      def call(title, city, user_id, description)
-        post = {
-          title: title,
-          city: city,
-          description: description,
-          user_id: user_id
-        }
-        ads_repo.create(post)
-        Success(abs)
+      # @param [Hash] payload
+      # @return [Dry::Monad] result
+      def call(payload)
+        params = yield validation.call(payload)
+        create_result = yield create_post(params)
+
+        Success(create_result)
+      end
+
+      private
+
+      def create_post(params)
+        Try[StandardError] do
+          ads_repo.create(params)
+        end.to_result.or(
+          Failure([:creation_error, { error: "post wasn't created" }])
+        )
       end
     end
   end

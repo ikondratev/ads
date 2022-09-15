@@ -9,7 +9,7 @@ Sequel.migration do
       Float :lon, null: true
       Bignum :user_id, null: false
       DateTime :created_at, null: false
-      DateTime :updatede_at, null: false
+      DateTime :updated_at, null: false
     end
   end
 

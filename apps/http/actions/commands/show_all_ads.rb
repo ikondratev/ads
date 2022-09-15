@@ -9,22 +9,20 @@ module HTTP
 
         include Import[
                   configuration: "hanami.action.configuration",
-                  command: "services.posting.commands.show_all_posts"
+                  command: "services.posting.commands.show_all_posts",
+                  error_handler: "http.actions.handlers.errors"
                 ]
 
         def handle(_req, res)
           result = command.call
 
           case result
-          in Success
-            res.status  = 200
-            res.body    = result.value!.to_json
-          in Failure[:account_not_found, error_message]
-            halt 404, error_message.to_json
-          in Failure[:queue_full, error_message]
-            halt 422, error_message.to_json
-          in Failure[:toys_exist_in_queue, error_message]
-            halt 422, error_message.to_json
+          when Success
+            res.status = 200
+            res.body = result.value!.to_json
+          when Failure
+            error_result = error_handler.call(result)
+            halt error_result[:code], error_result[:error].to_json
           end
         end
       end

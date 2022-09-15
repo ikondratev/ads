@@ -22,6 +22,12 @@ class Container < Dry::System::Container
       dir.namespaces.add "posting", key: "services.posting"
     end
 
+    config.component_dirs.add "lib" do |dir|
+      dir.memoize = true
+
+      dir.namespaces.add "validations", key: "validations"
+    end
+
     config.component_dirs.add "apps" do |dir|
       dir.memoize = true
 
