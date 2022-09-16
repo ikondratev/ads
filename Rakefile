@@ -12,6 +12,11 @@ RuboCop::RakeTask.new do |task|
   task.requires << "rubocop-rake"
 end
 
+# require 'bundler/gem_tasks'
+require "rspec/core/rake_task"
+
+RSpec::Core::RakeTask.new(:spec)
+
 namespace :db do
   require "sequel"
   require "dotenv"
