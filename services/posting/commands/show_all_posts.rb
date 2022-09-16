@@ -6,14 +6,14 @@ module Posting
       include Import[ads_repo: "services.posting.repositories.ads_repo"]
 
       def call
-        ads = yield show_posts
+        ads = yield find_posts
 
         Success(ads)
       end
 
       private
 
-      def show_posts
+      def find_posts
         Try[StandardError] do
           ads_repo.all
         end.to_result.or(
