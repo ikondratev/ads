@@ -24,7 +24,7 @@ namespace :db do
   Dotenv.load(".env.prod", ".env.local")
 
   Sequel.extension :migration
-  DB = ENV["MODE"] == "prod" ? Sequel.connect(ENV["CONNECT_CREDENTIALS"]) : Object
+  DB = ENV["MODE"] == "prod" ? Sequel.connect(ENV["DATABASE_URL"]) : Object
 
   desc "Prints current schema version"
   task :version do

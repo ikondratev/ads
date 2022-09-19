@@ -1,5 +1,4 @@
 .idea/
 Gemfile.lock
-config/database.yml
 .env.prod
 .env.local

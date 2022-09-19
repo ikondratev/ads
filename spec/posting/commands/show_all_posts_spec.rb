@@ -14,14 +14,14 @@ RSpec.describe Posting::Commands::ShowAllPosts, type: :command do
     end
   end
 
-  context "when error was raised" do
+  context "in case of error" do
     before do
       allow_any_instance_of(Posting::Repositories::AdsRepo).to receive(:all).and_raise(StandardError)
     end
 
     let(:ads_repo) { Posting::Repositories::AdsRepo.new }
 
-    it do
+    it "should raise :show_error" do
       expect(subject).to be_failure
       expect(subject.failure).to eq([:show_error, { error_message: "show action was failed" }])
     end

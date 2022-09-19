@@ -4,7 +4,7 @@ Container.register_provider(:db) do
 
     AVAILABLE_ENV = %w[prod local].freeze
 
-    db = AVAILABLE_ENV.include?(ENV["MODE"]) ? Sequel.connect(ENV["CONNECT_CREDENTIALS"]) : Object
+    db = AVAILABLE_ENV.include?(ENV["MODE"]) ? Sequel.connect(ENV["DATABASE_URL"]) : Object
 
     register("persistence.db", db)
   end
