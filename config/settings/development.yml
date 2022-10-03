@@ -1,0 +1,5 @@
+db:
+  database: ads_de
+  port: 5450
+  password: 123
+  user: user_dev

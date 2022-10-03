@@ -4,9 +4,10 @@ AllCops:
     - Rakefile
     - bin/*
     - spec/**/**
-    - fitness_functions/**/**
     - system/**/**
     - db/**/**
+    - rakelib/**/**
+    -
 
 Style/FrozenStringLiteralComment:
   Enabled: false
