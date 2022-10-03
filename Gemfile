@@ -7,6 +7,7 @@ gem 'zeitwerk'
 gem 'rake'
 gem 'parser'
 gem 'dotenv', '~> 2.1', '>= 2.1.1'
+gem 'config', '~> 2.2.1'
 gem 'rubocop', require: false
 gem 'rubocop-rake', require: false
 gem 'dry-monads', '1.3'
