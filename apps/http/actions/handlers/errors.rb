@@ -4,6 +4,10 @@ module HTTP
       class Errors
         def call(result)
           case result.failure[0]
+          when :forbidden_error
+            { code: 403, error: { scope: "api.errors", error_message: result.failure[1][:error_message] } }
+          when :bad_request
+            { code: 404, error: { scope: "api.errors", error_message: result.failure[1][:error_message] } }
           when :invalid_payload
             { code: 422, error: { scope: "api.errors", error_message: result.failure[1][:error_message] } }
           when :creation_error

@@ -1,5 +1,7 @@
 db:
-  database: ads_de
-  port: 5450
+  database: ads
+  port: 9490
   password: 123
-  user: user_dev
+  user: postgres
+auth:
+  base_url: http://localhost:3003/auth/v2

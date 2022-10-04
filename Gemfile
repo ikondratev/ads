@@ -23,6 +23,8 @@ gem 'hanami-api'
 gem 'hanami-controller', git: 'https://github.com/hanami/controller.git', tag: 'v2.0.0.beta1'
 gem 'hanami-validations', git: 'https://github.com/hanami/validations.git', tag: 'v2.0.0.beta1'
 gem 'puma', '~> 3.12.4'
+gem 'faraday'
+gem 'faraday_middleware'
 
 # Test group
 gem 'rspec', '~> 3.11'

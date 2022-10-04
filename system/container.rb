@@ -26,6 +26,7 @@ class Container < Dry::System::Container
       dir.memoize = true
 
       dir.namespaces.add "validations", key: "validations"
+      dir.namespaces.add "auth_service", key: "auth_service"
     end
 
     config.component_dirs.add "apps" do |dir|

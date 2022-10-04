@@ -15,5 +15,6 @@ setting_files = Config.setting_files(
 
 Config.load_and_set_settings(setting_files)
 
+require "dry/initializer"
 require "./system/container"
 Container.finalize!
