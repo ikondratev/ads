@@ -17,7 +17,7 @@ module Posting
         Try[StandardError] do
           ads_repo.all
         end.to_result.or(
-          Failure([:show_error, { error_message: "show action was failed" }])
+          Failure([:show_error])
         )
       end
     end

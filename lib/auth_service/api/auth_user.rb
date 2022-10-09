@@ -1,9 +1,15 @@
 module AuthService
   module API
     class AuthUser < AuthService::Client
+      include Import[
+                validation: "validations.auth_user",
+                i18n: "locales.i18n"
+              ]
       # @param [String] token
+      # @return [Integer] user_id
       def call(token)
-        auth_response = yield auth_request(token)
+        validated_params = yield validation.call(barier: token)
+        auth_response = yield auth_request(validated_params[:barier])
         user_id = yield extract_user_id(auth_response)
 
         Success(user_id)
@@ -21,7 +27,7 @@ module AuthService
 
           result
         end.to_result.or(
-          Failure([:bad_request, { error_message: "bad request" }])
+          Failure([:bad_request])
         )
       end
 
@@ -33,7 +39,7 @@ module AuthService
 
           user_id
         end.to_result.or(
-          Failure([:forbidden_error, { error_message: "user not found" }])
+          Failure([:forbidden_error])
         )
       end
     end

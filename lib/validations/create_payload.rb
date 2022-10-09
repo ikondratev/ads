@@ -11,7 +11,7 @@ module Validations
 
     def call(payload)
       OrderSchemaValidator.call(prepare_params(payload)).to_monad.fmap(&:to_h)
-                          .or { |result| Failure([:invalid_payload, { error_message: result.errors&.to_h }]) }
+                          .or { |_result| Failure([:invalid_payload]) }
     end
 
     private

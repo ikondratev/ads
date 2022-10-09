@@ -1,0 +1,5 @@
+ru:
+  services:
+    errors:
+      show_error: "Ошибка поиска результатов"
+      creation_error: "Публикация не была создана"
