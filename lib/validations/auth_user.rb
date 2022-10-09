@@ -3,7 +3,7 @@ module Validations
     include Dry::Monads[:result]
 
     OrderSchemaValidator = Dry::Schema.Params do
-      required(:barier).value(Types::TokenBarier)
+      required(:token).value(Types::TokenBarier)
     end
 
     def call(payload)

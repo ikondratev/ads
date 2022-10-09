@@ -12,7 +12,7 @@ module HTTP
 
           failure_response(user_id_request) unless user_id_request.success
 
-          result = command.call(req.params.merge!(user_id_request[:user_id]))
+          result = command.call(req.params.to_h.merge(user_id: user_id_request.success[:user_id]))
 
           case result
           when Success

@@ -9,10 +9,10 @@ module AuthService
       # @return [Integer] user_id
       def call(token)
         validated_params = yield validation.call(barier: token)
-        auth_response = yield auth_request(validated_params[:barier])
+        auth_response = yield auth_request(validated_params[:token])
         user_id = yield extract_user_id(auth_response)
 
-        Success(user_id)
+        Success(user_id: user_id)
       end
 
       private
@@ -35,7 +35,7 @@ module AuthService
         Try[StandardError] do
           user_id = auth_response.body.dig(:meta, :user_id)
 
-          raise StandardError if user_id
+          raise StandardError unless user_id
 
           user_id
         end.to_result.or(

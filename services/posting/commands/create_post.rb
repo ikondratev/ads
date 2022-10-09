@@ -22,8 +22,9 @@ module Posting
       def create_post(params)
         Try[StandardError] do
           ads_repo.create(params)
+          :done
         end.to_result.or(
-          Failure([:creation_error, { error: "post wasn't created" }])
+          Failure([:creation_error])
         )
       end
     end

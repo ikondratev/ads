@@ -33,7 +33,7 @@ RSpec.describe Posting::Commands::CreatePost, type: :command do
 
     it "should raise :creation_error" do
       expect(subject).to be_failure
-      expect(subject.failure).to eq([:creation_error, { error: "post wasn't created" }])
+      expect(subject.failure).to eq([:creation_error])
     end
   end
 end
