@@ -15,6 +15,8 @@ module HTTP
             { code: 503, error: { error_message: i18n.t(:creation_error, scope: "services.errors") } }
           when :show_error
             { code: 503, error: { error_message: i18n.t(:show_error, scope: "services.errors") } }
+          when :empty_response
+            { code: 503, error: { error_message: i18n.t(:empty_response, scope: "services.errors") } }
           else
             { code: 500, error: { error_message: i18n.t(:unexpected_error, scope: "backend.errors.request") } }
           end

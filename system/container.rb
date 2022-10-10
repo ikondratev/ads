@@ -27,6 +27,7 @@ class Container < Dry::System::Container
 
       dir.namespaces.add "validations", key: "validations"
       dir.namespaces.add "auth_service", key: "auth_service"
+      dir.namespaces.add "geocoder_service", key: "geocoder_service"
     end
 
     config.component_dirs.add "apps" do |dir|

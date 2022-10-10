@@ -3,3 +3,4 @@ en:
     errors:
       show_error: "Error show posts action"
       creation_error: "Post wasn't created"
+      empty_response: "Encode empty result"
