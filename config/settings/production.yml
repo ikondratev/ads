@@ -1,9 +1,2 @@
 db:
   database: ads
-  port: 9490
-  password: 123
-  user: postgres
-auth:
-  base_url: http://localhost:3003/auth/v1
-geocoder:
-  base_url: http://localhost:3003/geocoder/v1

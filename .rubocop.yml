@@ -86,3 +86,5 @@ Style/IfUnlessModifier:
 
 Naming/MethodParameterName:
   Enabled: false
+Metrics/CyclomaticComplexity:
+  Enabled: false

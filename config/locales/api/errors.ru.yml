@@ -5,3 +5,4 @@ ru:
         forbidden: "Нет прав на выполнение действия"
         bad_request: "Ресурс не найден"
         validation_error: "Ошибка в параметре запроса"
+        encode_location_error: "Не смогли найти город"

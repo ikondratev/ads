@@ -7,6 +7,6 @@ module GeocoderService
     DEFAULT_URL = "http://localhost:3003/geocoder/v1".freeze
 
     option :connection, default: proc { Container["faraday.connection"] }
-    option :url, default: proc { Settings.geocoder.base_url || DEFAULT_URL }
+    option :base_url, default: proc { Settings.geocoder.base_url || DEFAULT_URL }
   end
 end

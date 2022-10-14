@@ -1,3 +1,7 @@
 db:
   adapter: postgresql
   host: localhost
+auth:
+  base_url: http://localhost:3003/auth/v1
+geocoder:
+  base_url: http://localhost:3005/geocoder/v1

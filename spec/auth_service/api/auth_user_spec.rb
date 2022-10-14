@@ -1,7 +1,7 @@
 require "spec_helper"
 
 describe AuthService::API::AuthUser, type: :lib_action do
-  subject { described_class.new(connection: connection, url: url ) }
+  subject { described_class.new(connection: connection, base_url: url ) }
 
   let(:connection) { Faraday::Connection.new }
   let(:token) { "token" }

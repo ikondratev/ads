@@ -1,7 +1,7 @@
 require "spec_helper"
 
 describe GeocoderService::API::EncodeLocation, type: :third_parties do
-  subject { described_class.new(connection: connection, url: url ) }
+  subject { described_class.new(connection: connection, base_url: url ) }
 
   let(:connection) { Faraday::Connection.new }
   let(:city) { "NewYork" }
@@ -17,8 +17,11 @@ describe GeocoderService::API::EncodeLocation, type: :third_parties do
 
       let(:body) do
         {
-          meta: {
-            encode: ["lat", "lon"]
+          "meta" => {
+            "encode" => {
+              "lat" => "test_lat",
+              "lon" => "test_lon"
+            }
           }
         }
       end
@@ -27,8 +30,9 @@ describe GeocoderService::API::EncodeLocation, type: :third_parties do
         result = subject.call(city)
         expect{ result }.not_to raise_error
         expect(result.success?).to be(true)
-        expect(result.success).to be_kind_of(Array)
-        expect(result.success.size).to be(2)
+        expect(result.success).to be_kind_of(Hash)
+        expect(result.success["lat"]).not_to be_nil
+        expect(result.success["lon"]).not_to be_nil
       end
     end
 

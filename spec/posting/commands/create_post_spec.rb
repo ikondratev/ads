@@ -6,7 +6,14 @@ RSpec.describe Posting::Commands::CreatePost, type: :command do
   let(:command) { described_class.new(ads_repo: ads_repo, validation: validation, location: geocoder ) }
   let(:ads_repo) { instance_double(Posting::Repositories::AdsRepo, create: 3) }
   let(:validation) { Validations::CreatePayload.new }
-  let(:geocoder) { instance_double(GeocoderService::API::EncodeLocation, call: Success(["ne_lat", "ne_lon"])) }
+  let(:geocoder) { instance_double(GeocoderService::API::EncodeLocation, call: Success(success_geocoder_response)) }
+
+  let(:success_geocoder_response) do
+    {
+      "lat" => "test_lat",
+      "lon" => "test_lon"
+    }
+  end
 
   let(:payload) do
     {

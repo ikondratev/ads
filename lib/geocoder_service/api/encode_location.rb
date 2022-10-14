@@ -5,21 +5,22 @@ module GeocoderService
                 validation: "validations.encode_location",
                 i18n: "locales.i18n"
               ]
+      REQUEST_URL = "/".freeze
       # @param [String] city
       # @return [Integer] user_id
       def call(city)
         validated_params = yield validation.call(city: city)
         response = yield geocoder_request(validated_params[:city])
-        lat, lon = yield parse_response(response)
+        geocodes = yield parse_response(response)
 
-        Success([lat, lon])
+        Success(geocodes)
       end
 
       private
 
       def geocoder_request(city)
         Try[StandardError] do
-          result = @connection.post(@url) do |request|
+          result = @connection.post("#{@base_url}#{REQUEST_URL}") do |request|
             request.params[:city] = city
           end
 
@@ -33,11 +34,10 @@ module GeocoderService
 
       def parse_response(response)
         Try[StandardError] do
-          encode_city_params = response.body.dig(:meta, :encode)
+          encode_city_params = response.body.dig("meta", "encode")
 
-          encode_city_params.each do |param|
-            raise StandardError if param.nil?
-          end
+          raise StandardError if encode_city_params.empty?
+          raise StandardError if encode_city_params.values.any?(&:nil?)
 
           encode_city_params
         end.to_result.or(

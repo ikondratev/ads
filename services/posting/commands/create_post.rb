@@ -13,16 +13,17 @@ module Posting
       # @return [Dry::Monad] result
       def call(payload)
         params = yield validation.call(payload)
-        lat, lon = yield encode_location(params[:city])
-        create_result = yield create_post(params.merge(lat: lat, lon: lon))
+        geocodes = yield encode_location(params[:city])
+        create_result = yield create_post(params, geocodes)
 
         Success(create_result)
       end
 
       private
 
-      def create_post(params)
+      def create_post(params, geocodes)
         Try[StandardError] do
+          params.merge!(lat: geocodes["lat"], lon: geocodes["lon"])
           ads_repo.create(params)
           :done
         end.to_result.or(

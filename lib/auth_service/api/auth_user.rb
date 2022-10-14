@@ -7,6 +7,7 @@ module AuthService
               ]
       # @param [String] token
       # @return [Integer] user_id
+      REQUEST_URL = "/".freeze
       def call(token)
         validated_params = yield validation.call(barier: token)
         auth_response = yield auth_request(validated_params[:token])
@@ -19,7 +20,7 @@ module AuthService
 
       def auth_request(token)
         Try[StandardError] do
-          result = @connection.post(@url) do |request|
+          result = @connection.post("#{@base_url}#{REQUEST_URL}") do |request|
             request.headers["Authorization"] = "Barier #{token}"
           end
 

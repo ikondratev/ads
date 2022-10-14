@@ -3,7 +3,3 @@ db:
   port: 5450
   password: 123
   user: user_test
-auth:
-  base_url: http://localhost:3003/auth/v1
-geocoder:
-  base_url: http://localhost:3003/geocoder/v1
