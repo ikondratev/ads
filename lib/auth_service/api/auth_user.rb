@@ -21,7 +21,7 @@ module AuthService
       def auth_request(token)
         Try[StandardError] do
           result = @connection.post("#{@base_url}#{REQUEST_URL}") do |request|
-            request.headers["Authorization"] = "Barier #{token}"
+            request.headers["Authorization"] = "#{token}"
           end
 
           raise StandardError unless result.success?
@@ -34,7 +34,7 @@ module AuthService
 
       def extract_user_id(auth_response)
         Try[StandardError] do
-          user_id = auth_response.body.dig(:meta, :user_id)
+          user_id = auth_response.body.dig("meta", "user_id")
 
           raise StandardError unless user_id
 

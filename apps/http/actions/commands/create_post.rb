@@ -8,11 +8,11 @@ module HTTP
                 ]
 
         def handle(req, res)
-          user_id_request = authenticate_user.call(req.env["HTTP_BEARER"])
+          auth_request = authenticate_user.call(req.env["HTTP_AUTHORIZATION"])
 
-          failure_response(user_id_request) unless user_id_request.success
+          failure_response(auth_request) unless auth_request.success
 
-          result = command.call(req.params.to_h.merge(user_id: user_id_request.success[:user_id]))
+          result = command.call(req.params.to_h.merge(user_id: auth_request.success[:user_id]))
 
           case result
           when Success
