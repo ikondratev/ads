@@ -9,7 +9,7 @@ RSpec.describe HTTP::Actions::Commands::CreatePost, type: :http_action do
   let(:command) { ->(*) { Success(:done) } }
   let(:env_params) do
     {
-      "HTTP_BARIER" => "123-123-123",
+      "HTTP_BEARER" => "123-123-123",
       "title" => "Test title",
       "city" => "City",
       "description" => "Description",

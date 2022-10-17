@@ -8,7 +8,7 @@ module HTTP
                 ]
 
         def handle(req, res)
-          user_id_request = authenticate_user.call(req.env["HTTP_BARIER"])
+          user_id_request = authenticate_user.call(req.env["HTTP_BEARER"])
 
           failure_response(user_id_request) unless user_id_request.success
 
