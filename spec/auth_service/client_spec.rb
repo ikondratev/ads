@@ -1,13 +1,13 @@
 require "spec_helper"
 
-describe AuthService::API::AuthUser, type: :lib_action do
+describe AuthService::Client do
   subject { described_class.new(connection: connection, base_url: url ) }
 
   let(:connection) { Faraday::Connection.new }
   let(:token) { "token" }
   let(:url) { "http://localhost" }
 
-  describe "#call" do
+  describe "#auth" do
     context "without any errors" do
       before do
         allow_any_instance_of(Faraday::Connection).to receive(:post).and_return(Faraday::Response.new)
@@ -24,7 +24,7 @@ describe AuthService::API::AuthUser, type: :lib_action do
       end
 
       it "should return valid result" do
-        result = subject.call(token)
+        result = subject.auth(token)
         expect{ result }.not_to raise_error
         expect(result.success?).to be(true)
         expect(result.success[:user_id]).to be(1)
@@ -38,7 +38,7 @@ describe AuthService::API::AuthUser, type: :lib_action do
       end
 
       it "should return error result" do
-        result = subject.call(token)
+        result = subject.auth(token)
         expect(result.success?).to be(false)
         expect(result.failure[0]).to be(:bad_request)
       end

@@ -10,7 +10,7 @@ module HTTP
         include Import[
                   configuration: "hanami.action.configuration",
                   error_handler: "http.actions.handlers.errors",
-                  authenticate_user: "auth_service.api.auth_user"
+                  authenticate_user: "auth_service.client"
                 ]
 
         private

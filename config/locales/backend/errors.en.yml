@@ -1,4 +1,5 @@
 en:
   backend:
     errors:
-      unexpected_error: "Something was wrong"
+      request:
+        unexpected_error: "Something was wrong"

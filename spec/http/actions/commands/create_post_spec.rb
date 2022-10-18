@@ -1,11 +1,12 @@
 require "spec_helper"
 
 RSpec.describe HTTP::Actions::Commands::CreatePost, type: :http_action do
-  let(:action) { described_class.new(command: command, authenticate_user: auth_user) }
+  before do
+    allow_any_instance_of(AuthService::Client).to receive(:auth).and_return(Success({ user_id: 1 }))
+  end
 
-  subject { action.call(env_params) }
+  subject { described_class.new(command: command) }
 
-  let(:auth_user) { ->(*) { Success({ user_id: 1  }) } }
   let(:command) { ->(*) { Success(:done) } }
   let(:env_params) do
     {
@@ -20,12 +21,15 @@ RSpec.describe HTTP::Actions::Commands::CreatePost, type: :http_action do
     let(:command) { ->(*) { Success(:done) } }
 
     it "should returns valid result" do
-      expect(subject.status).to eq(201)
+      result = subject.call(env_params)
+      expect(result.status).to eq(201)
     end
   end
 
   context "when user authenticate with error" do
-    let(:auth_user) { ->(*) { Failure([:bad_request]) } }
+    before do
+      allow_any_instance_of(AuthService::Client).to receive(:auth).and_return(Failure([:bad_request]))
+    end
 
     let(:expected_result_body) do
       [{
@@ -34,7 +38,7 @@ RSpec.describe HTTP::Actions::Commands::CreatePost, type: :http_action do
     end
 
     it "should return error result" do
-      result = subject
+      result = subject.call(env_params)
       expect(result.status).to be(404)
       expect(result.body).to eq(expected_result_body)
     end
@@ -50,7 +54,7 @@ RSpec.describe HTTP::Actions::Commands::CreatePost, type: :http_action do
     end
 
     it "should return error result" do
-      result = subject
+      result = subject.call(env_params)
       expect(result.status).to be(503)
       expect(result.body).to eq(expected_result_body)
     end

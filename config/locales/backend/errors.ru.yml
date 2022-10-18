@@ -1,4 +1,5 @@
 ru:
   backend:
     errors:
-      unexpected_error: "Что то пошло не так"
+      request:
+        unexpected_error: "Что то пошло не так"

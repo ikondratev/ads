@@ -1,8 +1,9 @@
 module GeocoderService
   module API
-    class EncodeLocation < GeocoderService::Client
+    class EncodeLocation < GeocoderService::API::BaseRequest
       include Import[
                 validation: "validations.encode_location",
+                extractor: "geocoder_service.api.extractors.encode_location_extractor",
                 i18n: "locales.i18n"
               ]
       REQUEST_URL = "/".freeze
@@ -33,13 +34,8 @@ module GeocoderService
       end
 
       def parse_response(response)
-        Try[StandardError] do
-          encode_city_params = response.body.dig("meta", "encode")
-
-          raise StandardError if encode_city_params.empty?
-          raise StandardError if encode_city_params.values.any?(&:nil?)
-
-          encode_city_params
+        Try[GeocoderService::API::Extractors::ExtractorError] do
+          extractor.call(response)
         end.to_result.or(
           Failure([:empty_response])
         )

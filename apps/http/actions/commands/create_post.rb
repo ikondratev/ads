@@ -8,7 +8,7 @@ module HTTP
                 ]
 
         def handle(req, res)
-          auth_request = authenticate_user.call(req.env["HTTP_AUTHORIZATION"])
+          auth_request = authenticate_user.auth(req.env["HTTP_AUTHORIZATION"])
 
           failure_response(auth_request) unless auth_request.success
 
