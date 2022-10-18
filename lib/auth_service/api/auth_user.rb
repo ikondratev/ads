@@ -20,9 +20,9 @@ module AuthService
 
       def auth_request(token)
         Try[StandardError] do
-          result = @connection.post("#{@base_url}#{REQUEST_URL}") do |request|
-            request.headers["Authorization"] = "#{token}"
-          end
+          @headers = { "Authorization": token }
+
+          result = request(:post, REQUEST_URL)
 
           raise StandardError unless result.success?
 

@@ -20,9 +20,9 @@ module GeocoderService
 
       def geocoder_request(city)
         Try[StandardError] do
-          result = @connection.post("#{@base_url}#{REQUEST_URL}") do |request|
-            request.params[:city] = city
-          end
+          @params = { "city": city }
+
+          result = request(:post, REQUEST_URL)
 
           raise StandardError unless result.success?
 

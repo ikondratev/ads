@@ -17,8 +17,8 @@ describe AuthService::API::AuthUser, type: :lib_action do
 
       let(:body) do
         {
-          meta: {
-            user_id: 1
+          "meta" => {
+            "user_id" => 1
           }
         }
       end
