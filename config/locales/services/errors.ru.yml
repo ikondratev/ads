@@ -1,0 +1,6 @@
+ru:
+  services:
+    errors:
+      show_error: "Ошибка поиска результатов"
+      creation_error: "Публикация не была создана"
+      empty_response: "Пустой результат геокодирования"

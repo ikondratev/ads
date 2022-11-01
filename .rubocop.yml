@@ -4,9 +4,10 @@ AllCops:
     - Rakefile
     - bin/*
     - spec/**/**
-    - fitness_functions/**/**
     - system/**/**
     - db/**/**
+    - rakelib/**/**
+    -
 
 Style/FrozenStringLiteralComment:
   Enabled: false
@@ -84,4 +85,6 @@ Style/IfUnlessModifier:
   Enabled: false
 
 Naming/MethodParameterName:
+  Enabled: false
+Metrics/CyclomaticComplexity:
   Enabled: false

@@ -1,0 +1,5 @@
+ru:
+  backend:
+    errors:
+      request:
+        unexpected_error: "Что то пошло не так"

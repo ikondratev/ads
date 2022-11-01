@@ -1,12 +1,9 @@
 module Validations
-  class CreatePayload
+  class EncodeLocation
     include Dry::Monads[:result]
 
     OrderSchemaValidator = Dry::Schema.Params do
-      required(:title).value(Posting::Types::Title)
       required(:city).value(Types::City)
-      required(:user_id).value(Posting::Types::UserId)
-      required(:description).value(Posting::Types::Description)
     end
 
     def call(payload)
@@ -18,10 +15,7 @@ module Validations
 
     def prepare_params(payload)
       {
-        title: payload[:title],
-        city: payload[:city],
-        description: payload[:description],
-        user_id: payload[:user_id]
+        city: payload[:city]
       }
     end
   end

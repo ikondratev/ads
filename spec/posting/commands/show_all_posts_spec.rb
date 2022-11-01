@@ -23,7 +23,7 @@ RSpec.describe Posting::Commands::ShowAllPosts, type: :command do
 
     it "should raise :show_error" do
       expect(subject).to be_failure
-      expect(subject.failure).to eq([:show_error, { error_message: "show action was failed" }])
+      expect(subject.failure).to eq([:show_error])
     end
   end
 end

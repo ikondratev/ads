@@ -3,9 +3,17 @@ require "spec_helper"
 RSpec.describe Posting::Commands::CreatePost, type: :command do
   subject { command.call(payload) }
 
-  let(:command) { described_class.new(ads_repo: ads_repo, validation: validation) }
+  let(:command) { described_class.new(ads_repo: ads_repo, validation: validation, location: geocoder ) }
   let(:ads_repo) { instance_double(Posting::Repositories::AdsRepo, create: 3) }
   let(:validation) { Validations::CreatePayload.new }
+  let(:geocoder) { instance_double(GeocoderService::API::EncodeLocation, call: Success(success_geocoder_response)) }
+
+  let(:success_geocoder_response) do
+    {
+      "lat" => "test_lat",
+      "lon" => "test_lon"
+    }
+  end
 
   let(:payload) do
     {
@@ -33,7 +41,16 @@ RSpec.describe Posting::Commands::CreatePost, type: :command do
 
     it "should raise :creation_error" do
       expect(subject).to be_failure
-      expect(subject.failure).to eq([:creation_error, { error: "post wasn't created" }])
+      expect(subject.failure).to eq([:creation_error])
+    end
+  end
+
+  context "in case of location encoder error" do
+    let(:geocoder) { instance_double(GeocoderService::API::EncodeLocation, call: Failure([:encode_error])) }
+
+    it "should raise :encode_location_error" do
+      expect(subject).to be_failure
+      expect(subject.failure).to eq([:encode_location_error])
     end
   end
 end

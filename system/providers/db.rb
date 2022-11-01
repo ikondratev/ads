@@ -2,9 +2,9 @@ Container.register_provider(:db) do
   prepare do
     require "sequel"
 
-    AVAILABLE_ENV = %w[prod local].freeze
+    AVAILABLE_ENV = %w[production development].freeze
 
-    db = AVAILABLE_ENV.include?(ENV["MODE"]) ? Sequel.connect(ENV["DATABASE_URL"]) : Object
+    db = AVAILABLE_ENV.include?(ENV["RACK_ENV"]) ? Sequel.connect(Settings.db.to_h) : Object
 
     register("persistence.db", db)
   end

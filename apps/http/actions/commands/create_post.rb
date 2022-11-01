@@ -1,27 +1,24 @@
-require "json"
-require "hanami/action"
-
 module HTTP
   module Actions
     module Commands
-      class CreatePost < Hanami::Action
+      class CreatePost < BaseCommand
         include Dry::Monads[:result]
-
         include Import[
-                  configuration: "hanami.action.configuration",
-                  command: "services.posting.commands.create_post",
-                  error_handler: "http.actions.handlers.errors"
+                  command: "services.posting.commands.create_post"
                 ]
 
         def handle(req, res)
-          result = command.call(req.params)
+          auth_request = authenticate_user.auth(req.env["HTTP_AUTHORIZATION"])
+
+          failure_response(auth_request) unless auth_request.success
+
+          result = command.call(req.params.to_h.merge(user_id: auth_request.success[:user_id]))
 
           case result
           when Success
             res.status = 201
           when Failure
-            error_result = error_handler.call(result)
-            halt error_result[:code], error_result[:error].to_json
+            failure_response(result)
           end
         end
       end
