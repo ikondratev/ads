@@ -16,6 +16,7 @@ gem 'dry-types', '1.5'
 gem 'dry-struct', '1.0'
 gem 'rack', '~> 2.2', '>= 2.2.4'
 gem 'sequel', '~> 5.60', '>= 5.60.1'
+gem 'bunny', '~> 2.19'
 gem 'pg'
 
 # HTTP transport layer

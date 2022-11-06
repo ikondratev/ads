@@ -17,4 +17,5 @@ Config.load_and_set_settings(setting_files)
 
 require "dry/initializer"
 require "./system/container"
+require "./config/initializers/consumer"
 Container.finalize!

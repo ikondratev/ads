@@ -7,9 +7,9 @@ module GeocoderService
         # @return [Hash] result
         # @raise [ExtractorError] error
         def call(response)
-          encode_city_params = response.body.dig("meta", "encode")
+          encode_city_params = response&.body&.dig("meta", "encode")
 
-          raise "empty response" if encode_city_params.empty?
+          raise "empty response" if encode_city_params.nil?
           raise "one of fields was empty" if encode_city_params.values.any?(&:nil?)
 
           encode_city_params

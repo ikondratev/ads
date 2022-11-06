@@ -10,6 +10,7 @@ Dry::Schema.load_extensions(:monads)
 require "dry-struct"
 require "dry/monads"
 require "dry/monads/do"
+require "bunny"
 
 class Container < Dry::System::Container
   use :env, inferrer: -> { ENV.fetch("APP_ENV", :development).to_sym }
