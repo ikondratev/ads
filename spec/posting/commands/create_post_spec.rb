@@ -3,10 +3,10 @@ require "spec_helper"
 RSpec.describe Posting::Commands::CreatePost, type: :command do
   subject { command.call(payload) }
 
-  let(:command) { described_class.new(ads_repo: ads_repo, validation: validation, location: geocoder ) }
+  let(:command) { described_class.new(ads_repo: ads_repo, validation: validation, geocoder_client: geocoder ) }
   let(:ads_repo) { instance_double(Posting::Repositories::AdsRepo, create: 3) }
   let(:validation) { Validations::CreatePayload.new }
-  let(:geocoder) { instance_double(GeocoderService::API::EncodeLocation, call: Success(success_geocoder_response)) }
+  let(:geocoder) { instance_double(GeocoderService::Rpc::Client, geocoding: Success()) }
 
   let(:success_geocoder_response) do
     {
@@ -42,15 +42,6 @@ RSpec.describe Posting::Commands::CreatePost, type: :command do
     it "should raise :creation_error" do
       expect(subject).to be_failure
       expect(subject.failure).to eq([:creation_error])
-    end
-  end
-
-  context "in case of location encoder error" do
-    let(:geocoder) { instance_double(GeocoderService::API::EncodeLocation, call: Failure([:encode_error])) }
-
-    it "should raise :encode_location_error" do
-      expect(subject).to be_failure
-      expect(subject.failure).to eq([:encode_location_error])
     end
   end
 end

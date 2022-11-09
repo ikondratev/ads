@@ -3,11 +3,12 @@ module Posting
     class ShowAllPosts
       include Dry::Monads[:result, :try, :do]
 
-      include Import[ads_repo: "services.posting.repositories.ads_repo"]
+      include Import[
+                ads_repo: "services.posting.repositories.ads_repo"
+              ]
 
       def call
         ads = yield find_posts
-
         Success(ads)
       end
 

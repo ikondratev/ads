@@ -14,4 +14,4 @@ module AuthService
       option :base_url, default: proc { Settings.auth.base_url || DEFAULT_URL }
     end
   end
- end
+end

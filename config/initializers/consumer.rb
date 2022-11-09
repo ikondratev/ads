@@ -1,10 +1,17 @@
 channel = Queues::RabbitMq.consumer_channel
 exchange = channel.default_exchange
-queue = channel.queue("geocoding", durable: true)
+queue = channel.queue("ads", durable: true)
 
 queue.subscribe(manual_ack: true) do |delivery_info, properties, payload|
-  payload = JSON(payload)
-  user_id = payload["user_id"]
+  body = JSON(payload)
+
+  params = {
+    lat: body["lat"],
+    lon: body["lon"],
+    post_id: body["post_id"]
+  }
+
+  Container["services.posting.commands.update_coordinates"].call(params)
 
   exchange.publish(
     "ok",

@@ -2,7 +2,7 @@ require "spec_helper"
 
 RSpec.describe HTTP::Actions::Commands::CreatePost, type: :http_action do
   before do
-    allow_any_instance_of(AuthService::HTTP::Client).to receive(:auth).and_return(Success({ user_id: 1 }))
+    allow_any_instance_of(AuthService::Rpc::Client).to receive(:auth).and_return(Success({ user_id: 1 }))
   end
 
   subject { described_class.new(command: command) }
@@ -28,7 +28,7 @@ RSpec.describe HTTP::Actions::Commands::CreatePost, type: :http_action do
 
   context "when user authenticate with error" do
     before do
-      allow_any_instance_of(AuthService::HTTP::Client).to receive(:auth).and_return(Failure([:bad_request]))
+      allow_any_instance_of(AuthService::Rpc::Client).to receive(:auth).and_return(Failure([:bad_request]))
     end
 
     let(:expected_result_body) do

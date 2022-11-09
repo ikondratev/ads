@@ -1,6 +1,6 @@
 require "spec_helper"
 
-describe GeocoderService::API::EncodeLocation, type: :third_parties do
+describe GeocoderService::HTTP::API::EncodeLocation, type: :third_parties do
   subject { described_class.new(connection: connection, base_url: url ) }
 
   let(:connection) { Faraday::Connection.new }
