@@ -1,1 +1,6 @@
 .idea/
+/log/*
+config/settings.local.yml
+config/settings/*.local.yml
+
+!/log/.keep

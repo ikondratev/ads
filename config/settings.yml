@@ -5,5 +5,10 @@ auth:
   base_url: http://localhost:3003/auth/v1
 geocoder:
   base_url: http://localhost:3005/geocoder/v1
+app:
+  name: ads_microservice
+log:
+  path: log/app.log
+  level: info
 rabbit_mq:
   consumer_pool: 10
