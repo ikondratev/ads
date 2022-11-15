@@ -10,9 +10,9 @@ module System
 
     def call(env)
       storage = @storage.respond_to?(:call) ? @storage.call : @storage
-      storage[:request_id] = env['HTTP_X_REQUEST_ID'] || @id_generator.call
+      storage[:request_id] = env["HTTP_X_REQUEST_ID"] || @id_generator.call
       status, headers, body = @app.call(env)
-      headers['X-Request-Id'] ||= storage[:request_id]
+      headers["X-Request-Id"] ||= storage[:request_id]
       [status, headers, body]
     end
   end
