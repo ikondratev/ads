@@ -1,6 +1,6 @@
 require "spec_helper"
 
-describe GeocoderService::API::EncodeLocation, type: :third_parties do
+describe GeocoderService::HTTP::API::EncodeLocation, type: :third_parties do
   subject { described_class.new(connection: connection, base_url: url ) }
 
   let(:connection) { Faraday::Connection.new }
@@ -19,8 +19,8 @@ describe GeocoderService::API::EncodeLocation, type: :third_parties do
         {
           "meta" => {
             "encode" => {
-              "lat" => "test_lat",
-              "lon" => "test_lon"
+              "lat" => 0.123,
+              "lon" => 0.321
             }
           }
         }
@@ -59,7 +59,7 @@ describe GeocoderService::API::EncodeLocation, type: :third_parties do
       let(:body) do
         {
           meta: {
-            encode: [nil, "lon"]
+            encode: [nil, 0.123]
           }
         }
       end

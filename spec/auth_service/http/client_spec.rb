@@ -1,6 +1,6 @@
 require "spec_helper"
 
-describe AuthService::Client do
+describe AuthService::HTTP::Client do
   subject { described_class.new(connection: connection, base_url: url ) }
 
   let(:connection) { Faraday::Connection.new }

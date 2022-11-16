@@ -1,9 +1,11 @@
 module Validations
-  class EncodeLocation
+  class UpdateCoordinates
     include Dry::Monads[:result]
 
     OrderSchemaValidator = Dry::Schema.Params do
-      required(:city).value(Types::City)
+      required(:lat).value(Posting::Types::Lat)
+      required(:lon).value(Posting::Types::Lon)
+      required(:post_id).value(Types::PostId)
     end
 
     # @param [Hash] payload
@@ -17,7 +19,9 @@ module Validations
 
     def prepare_params(payload)
       {
-        city: payload[:city]
+        lat: payload[:lat],
+        lon: payload[:lon],
+        post_id: payload[:post_id]
       }
     end
   end

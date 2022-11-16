@@ -4,13 +4,14 @@ module HTTP
       class CreatePost < BaseCommand
         include Dry::Monads[:result]
         include Import[
-                  command: "services.posting.commands.create_post"
+                  command: "services.posting.commands.create_post",
+                  authenticate_user: "auth_service.rpc.client"
                 ]
 
         def handle(req, res)
           auth_request = authenticate_user.auth(req.env["HTTP_AUTHORIZATION"])
 
-          failure_response(auth_request) unless auth_request.success
+          failure_response(auth_request) unless auth_request.success?
 
           result = command.call(req.params.to_h.merge(user_id: auth_request.success[:user_id]))
 

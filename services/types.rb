@@ -3,4 +3,5 @@ module Types
 
   TokenBarier = String
   City = String
+  PostId = Integer
 end

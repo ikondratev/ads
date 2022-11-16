@@ -9,6 +9,8 @@ module Validations
       required(:description).value(Posting::Types::Description)
     end
 
+    # @param [Hash] payload
+    # @return [Hash]
     def call(payload)
       OrderSchemaValidator.call(prepare_params(payload)).to_monad.fmap(&:to_h)
                           .or { |_result| Failure([:invalid_payload]) }

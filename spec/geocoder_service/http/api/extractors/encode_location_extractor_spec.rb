@@ -1,6 +1,6 @@
 require "spec_helper"
 
-describe GeocoderService::API::Extractors::EncodeLocationExtractor do
+describe GeocoderService::HTTP::API::Extractors::EncodeLocationExtractor do
   subject { described_class.new }
 
   let(:response) { Faraday::Response.new }
@@ -45,7 +45,7 @@ describe GeocoderService::API::Extractors::EncodeLocationExtractor do
       end
 
       it "should raise ExtractorError" do
-        expect{ subject.call(response) }.to raise_error(GeocoderService::API::Extractors::ExtractorError)
+        expect{ subject.call(response) }.to raise_error(GeocoderService::HTTP::API::Extractors::ExtractorError)
       end
     end
 
@@ -55,7 +55,7 @@ describe GeocoderService::API::Extractors::EncodeLocationExtractor do
       end
 
       it "should raise ExtractorError" do
-        expect{ subject.call(response) }.to raise_error(GeocoderService::API::Extractors::ExtractorError)
+        expect{ subject.call(response) }.to raise_error(GeocoderService::HTTP::API::Extractors::ExtractorError)
       end
     end
   end
