@@ -16,6 +16,8 @@ module GeocoderService
 
         protected
 
+        # @param [Symbol] method, example :get, :post
+        # @param [String] url, example "/url_to_request"
         def request(method, url)
           raise "undefined method" unless AVAILABLE_METHODS[method]
 

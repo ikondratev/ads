@@ -1,6 +1,8 @@
 module AuthService
   module Rpc
     module API
+      # @param [String] token
+      # @return [Dry::Monad]
       def auth(token)
         payload = { token: token }.to_json
 
