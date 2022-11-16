@@ -19,8 +19,8 @@ describe GeocoderService::HTTP::API::EncodeLocation, type: :third_parties do
         {
           "meta" => {
             "encode" => {
-              "lat" => "test_lat",
-              "lon" => "test_lon"
+              "lat" => 0.123,
+              "lon" => 0.321
             }
           }
         }
@@ -59,7 +59,7 @@ describe GeocoderService::HTTP::API::EncodeLocation, type: :third_parties do
       let(:body) do
         {
           meta: {
-            encode: [nil, "lon"]
+            encode: [nil, 0.123]
           }
         }
       end

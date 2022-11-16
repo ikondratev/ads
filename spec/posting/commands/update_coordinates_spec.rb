@@ -3,7 +3,7 @@ require "spec_helper"
 describe Posting::Commands::UpdateCoordinates do
   subject { described_class.new(ads_repo: ads_repo, validation: validation) }
 
-  let(:payload) { { post_id: 1, lat: "1", lon: "1" } }
+  let(:payload) { { post_id: 1, lat: 0.123, lon: 0.125 } }
   let(:ads_repo) { instance_double(Posting::Repositories::AdsRepo, update_by_id: 3) }
   let(:validation) { Validations::UpdateCoordinates.new }
 

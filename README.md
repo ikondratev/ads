@@ -11,7 +11,7 @@ ruby '3.1.0'
 #create ad:
 curl --request POST \
   --url http://localhost:9292/create \
-  --header 'AUTHORIZATION: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.ImJjZjU1ODE3LTA3ZGQtNGY4Zi1hYWVkLWU4NTlkY2IyNjBiMSI.snSk3yzIMsqe8q4E0AT8UuhOP2-kj6A5WHbKaKjTo-0' \
+  --header 'Authorization: Bearer <token>' \
   --header 'Content-Type: application/json' \
   --data '{
 	"title": "have a new car in new place another one",

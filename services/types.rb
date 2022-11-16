@@ -3,7 +3,5 @@ module Types
 
   TokenBarier = String
   City = String
-  Lat = String
-  Lon = String
   PostId = Integer
 end

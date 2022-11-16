@@ -3,8 +3,8 @@ module Validations
     include Dry::Monads[:result]
 
     OrderSchemaValidator = Dry::Schema.Params do
-      required(:lat).value(Types::Lat)
-      required(:lon).value(Types::Lon)
+      required(:lat).value(Posting::Types::Lat)
+      required(:lon).value(Posting::Types::Lon)
       required(:post_id).value(Types::PostId)
     end
 
