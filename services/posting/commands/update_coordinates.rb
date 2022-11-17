@@ -25,7 +25,7 @@ module Posting
           ad = Posting::Models::Ad.find(id: params[:post_id])
           ad.update_fields(params, %i[lon lat])
         end.to_result.or(
-          Failure([:update_params_error])
+          Failure([:update_coordinates_error])
         )
       end
     end

@@ -9,5 +9,7 @@ module HTTP
     get "/", to: Container["http.actions.commands.show_all_ads"]
 
     post "/create", to: Container["http.actions.commands.create_post"]
+
+    post "/:id/update_coordinates", to: Container["http.actions.commands.update_coordinates"]
   end
 end

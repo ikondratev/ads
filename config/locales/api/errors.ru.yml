@@ -6,3 +6,4 @@ ru:
         bad_request: "Ресурс не найден"
         validation_error: "Ошибка в параметре запроса"
         encode_location_error: "Не смогли найти город"
+        update_coordinates_error: "Координаты не были обновленны"
