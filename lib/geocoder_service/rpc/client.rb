@@ -20,7 +20,10 @@ module GeocoderService
         @queue.publish(
           payload,
           opts.merge(
-            app_id: "ads"
+            app_id: "ads",
+            headers: {
+              request_id: Thread.current[:request_id]
+            }
           )
         )
       end
