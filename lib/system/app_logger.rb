@@ -23,19 +23,16 @@ module System
         level: Settings.log.level
       )
 
-      logger.before_log = lambda do |data|
-        data[:app_mode] = @mode
-        data[:service] = { name: Settings.app.name }
-        data[:request_id] ||= Thread.current[:request_id]
-      end
-
-      logger
+      setup_logger_output(logger)
     end
 
     def debug_mode
       logger = Ougai::Logger.new(STDOUT)
       logger.formatter = Ougai::Formatters::Readable.new
+      setup_logger_output(logger)
+    end
 
+    def setup_logger_output(logger)
       logger.before_log = lambda do |data|
         data[:app_mode] = @mode
         data[:service] = { name: Settings.app.name }
