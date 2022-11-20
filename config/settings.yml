@@ -12,3 +12,5 @@ log:
   level: info
 rabbit_mq:
   consumer_pool: 10
+  channels:
+    geocoding: geocoding

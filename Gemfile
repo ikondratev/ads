@@ -16,6 +16,7 @@ gem 'dry-types', '1.5'
 gem 'dry-struct', '1.0'
 
 gem 'rack-ougai', '~> 0.3.0'
+gem 'amazing_print', '~> 1.4'
 
 gem 'rack', '~> 2.2', '>= 2.2.4'
 gem 'sequel', '~> 5.60', '>= 5.60.1'

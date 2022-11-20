@@ -8,19 +8,20 @@ module GeocoderService
 
       option :queue, default: proc { create_queue }
 
-      GEOCODE_QUEUE_CHANNEL = "geocoding".freeze
-
       private
 
       def create_queue
-        Queues::RabbitMq.channel.queue(GEOCODE_QUEUE_CHANNEL, durable: true)
+        Queues::RabbitMq.channel.queue(
+          Settings.rabbit_mq.channels.geocoding,
+          durable: true
+        )
       end
 
       def publish(payload, **opts)
         @queue.publish(
           payload,
           opts.merge(
-            app_id: "ads",
+            app_id: Settings.app.name,
             headers: {
               request_id: Thread.current[:request_id]
             }
