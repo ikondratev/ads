@@ -1,19 +1,18 @@
 module Posting
   module Commands
     class ShowAllPosts
-      include Dry::Monads[:result, :try, :do]
+      include Dry::Monads[:result]
+      include Import[
+                ads_repo: "services.posting.repositories.ads_repo"
+              ]
 
       def call
-        ads = yield find_posts
-        Success(ads)
-      end
+        l "Commands::ShowAllPosts"
 
-      private
-
-      def find_posts
-        Try[StandardError] do
-          Posting::Models::Ad.all
-        end.to_result.or(Failure([:show_error]))
+        Success(ads_repo.all)
+      rescue StandardError => e
+        le "Commands::ShowAllPosts", e.message
+        Failure([:show_error])
       end
     end
   end

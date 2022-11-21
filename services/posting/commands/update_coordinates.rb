@@ -21,12 +21,18 @@ module Posting
       private
 
       def update_post(params)
-        Try[StandardError] do
-          ad = Posting::Models::Ad.find(id: params[:post_id])
-          ad.update_fields(params, %i[lon lat])
-        end.to_result.or(
-          Failure([:update_coordinates_error])
+        l "Commands::UpdateCoordinates", action: :update_post, params: params
+
+        Success(
+          # ad.update_fields(params, %i[lon lat])
+          ads_repo.update_by_id(
+            params[:post_id],
+            { lon: params[:lon], lat: params[:lat] }
+          )
         )
+      rescue StoreError => e
+        le "Commands::UpdateCoordinates", e.message
+        Failure([:update_coordinates_error])
       end
     end
   end

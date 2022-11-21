@@ -21,17 +21,16 @@ module GeocoderService
         private
 
         def geocoder_request(city)
-          Try[StandardError] do
-            @params = { "city": city }
+          l "GeocoderService::HTTP::API", action: :geocoder_request, city: city
+          @params = { "city": city }
+          result = request(:post, REQUEST_URL)
 
-            result = request(:post, REQUEST_URL)
+          raise StandardError unless result.success?
 
-            raise StandardError unless result.success?
-
-            result
-          end.to_result.or(
-            Failure([:bad_request])
-          )
+          Success(result)
+        rescue StandardError => e
+          le "GeocoderService::HTTP::API", e.message
+          Failure([:bad_request])
         end
 
         def parse_response(response)

@@ -27,7 +27,7 @@ module System
     end
 
     def debug_mode
-      logger = Ougai::Logger.new(STDOUT)
+      logger = Ougai::Logger.new($stdout)
       logger.formatter = Ougai::Formatters::Readable.new
       setup_logger_output(logger)
     end

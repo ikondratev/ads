@@ -24,21 +24,21 @@ module Posting
       private
 
       def create_post(params)
-        Try[StandardError] do
-          # ads_repo.create(params)
-          ad = Posting::Models::Ad.new(params)
-          ad.save
-        end.to_result.or(
-          Failure([:creation_error])
-        )
+        l "Commands::CreatePost", action: :create_post, params: params
+
+        Success(ads_repo.create(params))
+      rescue StandardError => e
+        le "Commands::CreatePost", e.message
+        Failure([:creation_error])
       end
 
       def encode_location(city, post_id)
-        Try[StandardError] do
-          # geocoder_client.geocoding(city, post_id)
-        end.to_result.or(
-          Failure([:encode_location_error])
-        )
+        l "Commands::CreatePost", action: :encode_location, city: city, post_id: post_id
+
+        Success(geocoder_client.geocoding(city, post_id))
+      rescue StoreError => e
+        le "Commands::CreatePost", e.message
+        Failure([:encode_location_error])
       end
     end
   end
