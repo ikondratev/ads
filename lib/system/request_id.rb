@@ -2,7 +2,7 @@ require "securerandom"
 
 module System
   class RequestId
-    def initialize(app, opts = {})
+    def initialize(app, **opts)
       @app = app
       @storage = opts[:storage] || proc { Thread.current }
       @id_generator = opts[:id_generator] || proc { SecureRandom.hex(16) }
