@@ -8,7 +8,7 @@ module Posting
       attribute :title, Posting::Types::Title
       attribute :description, Posting::Types::Description
       attribute :user_id, Posting::Types::UserId
-      attribute :city, Posting::Types::String
+      attribute :city, Posting::Types::City
       attribute :lat, Posting::Types::Lat.optional
       attribute :lon, Posting::Types::Lon.optional
 

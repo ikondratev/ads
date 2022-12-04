@@ -1,0 +1,16 @@
+en:
+  model:
+    errors:
+      ads:
+        title:
+          blank: "Empty field title"
+        description:
+          blank: "Empty field description"
+        user_id:
+          blank: "Empty field user_id"
+        city:
+          blank: "Empty field city"
+        lat:
+          type: "Wrong type for lat"
+        lon:
+          type: "Wrong type for lon"
