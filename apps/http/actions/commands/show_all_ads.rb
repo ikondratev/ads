@@ -13,8 +13,7 @@ module HTTP
 
           case result
           when Success
-            res.status = 200
-            res.body = result.value!.to_json
+            success(res, 200, result.success)
           when Failure
             failure_response(result)
           end

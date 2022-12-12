@@ -11,6 +11,8 @@ module HTTP
             { code: 404, error: { error_message: i18n.t(:bad_request, scope: "api.errors.request") } }
           when :invalid_payload
             { code: 422, error: { error_message: i18n.t(:validation_error, scope: "api.errors.request") } }
+          when :invalid_model_validation
+            { code: 422, error: { error_message: i18n.t(:validation_error, scope: "api.errors.request") } }
           when :encode_location_error
             { code: 422, error: { error_message: i18n.t(:encode_location_error, scope: "api.errors.request") } }
           when :creation_error

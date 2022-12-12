@@ -3,7 +3,7 @@ module Validations
     include Dry::Monads[:result]
 
     OrderSchemaValidator = Dry::Schema.Params do
-      required(:city).value(Types::City)
+      required(:city).value(Posting::Types::City)
     end
 
     # @param [Hash] payload

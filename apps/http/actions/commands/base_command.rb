@@ -5,7 +5,7 @@ module HTTP
   module Actions
     module Commands
       class BaseCommand < Hanami::Action
-        include Dry::Monads[:result]
+        include Dry::Monads[:result, :try]
 
         include Import[
                   configuration: "hanami.action.configuration",
@@ -13,7 +13,14 @@ module HTTP
                   authenticate_user: "auth_service.http.client"
                 ]
 
-        private
+        protected
+
+        def success(res, status = 200, body = "")
+          res.status = status
+          res.body = body.to_json
+        rescue StandardError
+          failure_response(Failure([:fatal_error]))
+        end
 
         def failure_response(result)
           error_result = error_handler.call(result)

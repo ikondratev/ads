@@ -22,7 +22,8 @@ module Posting
 
       def update_post(params)
         Try[StandardError] do
-          ads_repo.update_by_id(params[:post_id], { lon: params[:lon], lat: params[:lat] })
+          ad = Posting::Models::Ad.find(id: params[:post_id])
+          ad.update_fields(params, %i[lon lat])
         end.to_result.or(
           Failure([:update_params_error])
         )

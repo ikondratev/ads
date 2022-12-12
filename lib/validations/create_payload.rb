@@ -4,7 +4,7 @@ module Validations
 
     OrderSchemaValidator = Dry::Schema.Params do
       required(:title).value(Posting::Types::Title)
-      required(:city).value(Types::City)
+      required(:city).value(Posting::Types::City)
       required(:user_id).value(Posting::Types::UserId)
       required(:description).value(Posting::Types::Description)
     end
@@ -12,19 +12,8 @@ module Validations
     # @param [Hash] payload
     # @return [Hash]
     def call(payload)
-      OrderSchemaValidator.call(prepare_params(payload)).to_monad.fmap(&:to_h)
+      OrderSchemaValidator.call(payload).to_monad.fmap(&:to_h)
                           .or { |_result| Failure([:invalid_payload]) }
-    end
-
-    private
-
-    def prepare_params(payload)
-      {
-        title: payload[:title],
-        city: payload[:city],
-        description: payload[:description],
-        user_id: payload[:user_id]
-      }
     end
   end
 end

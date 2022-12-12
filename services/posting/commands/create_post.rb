@@ -2,7 +2,6 @@ module Posting
   module Commands
     class CreatePost
       include Dry::Monads[:result, :try, :do]
-
       include Import[
                 ads_repo: "services.posting.repositories.ads_repo",
                 validation: "validations.create_payload",
@@ -14,16 +13,21 @@ module Posting
       def call(payload)
         params = yield validation.call(payload)
         create_result = yield create_post(params)
-        yield encode_location(params[:city], create_result)
+        yield encode_location(params[:city], create_result.user_id)
 
         Success(:done)
+      rescue StandardError => e
+        puts "[CreatePost] message: #{e.message}"
+        Failure([:creation_error])
       end
 
       private
 
       def create_post(params)
         Try[StandardError] do
-          ads_repo.create(params)
+          # ads_repo.create(params)
+          ad = Posting::Models::Ad.new(params)
+          ad.save
         end.to_result.or(
           Failure([:creation_error])
         )
@@ -31,7 +35,7 @@ module Posting
 
       def encode_location(city, post_id)
         Try[StandardError] do
-          geocoder_client.geocoding(city, post_id)
+          # geocoder_client.geocoding(city, post_id)
         end.to_result.or(
           Failure([:encode_location_error])
         )
