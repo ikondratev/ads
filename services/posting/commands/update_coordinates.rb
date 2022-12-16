@@ -2,9 +2,7 @@ module Posting
   module Commands
     class UpdateCoordinates
       include Dry::Monads[:result, :try, :do]
-
       include Import[
-                ads_repo: "services.posting.repositories.ads_repo",
                 validation: "validations.update_coordinates"
               ]
 
@@ -22,15 +20,9 @@ module Posting
 
       def update_post(params)
         l "Commands::UpdateCoordinates", action: :update_post, params: params
-
-        Success(
-          # ad.update_fields(params, %i[lon lat])
-          ads_repo.update_by_id(
-            params[:post_id],
-            { lon: params[:lon], lat: params[:lat] }
-          )
-        )
-      rescue StoreError => e
+        ad = Posting::Models::Ad.find(id: params[:post_id])
+        Success(ad.update_fields(params, %i[lon lat]))
+      rescue StandardError => e
         le "Commands::UpdateCoordinates", e.message
         Failure([:update_coordinates_error])
       end

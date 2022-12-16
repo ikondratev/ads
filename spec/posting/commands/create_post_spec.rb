@@ -1,10 +1,12 @@
-require "spec_helper"
+require "application_helper"
 
-RSpec.describe Posting::Commands::CreatePost, type: :command do
-  subject { command.call(payload) }
+describe Posting::Commands::CreatePost, type: :command do
+  subject { described_class.new(validation: validation, geocoder_client: geocoder) }
 
-  let(:command) { described_class.new(ads_repo: ads_repo, validation: validation, geocoder_client: geocoder ) }
-  let(:ads_repo) { instance_double(Posting::Repositories::AdsRepo, create: 3) }
+  before do
+    FactoryBot.create(:ads)
+  end
+
   let(:validation) { Validations::CreatePayload.new }
   let(:geocoder) { instance_double(GeocoderService::Rpc::Client, geocoding: Success()) }
 
@@ -25,23 +27,13 @@ RSpec.describe Posting::Commands::CreatePost, type: :command do
   end
 
 
-  context "without any errors" do
-    it "shouldn't raise any errors" do
-      expect{ subject }.not_to raise_error
-      expect(subject).to be_success
-    end
-  end
-
-  context "in case of error" do
-    before do
-      allow_any_instance_of(Posting::Repositories::AdsRepo).to receive(:create).and_raise(StandardError)
-    end
-
-    let(:ads_repo) { Posting::Repositories::AdsRepo.new }
-
-    it "should raise :creation_error" do
-      expect(subject).to be_failure
-      expect(subject.failure).to eq([:creation_error])
+  describe "#call" do
+    context "without any errors" do
+      it "shouldn't raise any errors" do
+        result = subject.call(payload)
+        expect{ result }.not_to raise_error
+        expect(result).to be_success
+      end
     end
   end
 end

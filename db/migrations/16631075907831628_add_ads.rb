@@ -1,6 +1,6 @@
 Sequel.migration do
   up do
-    create_table(:ads) do
+    create_table(:ad) do
       primary_key :id
       String :title, null: false
       String :description, null: false
