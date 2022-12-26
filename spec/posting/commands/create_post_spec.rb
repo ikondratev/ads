@@ -4,18 +4,12 @@ describe Posting::Commands::CreatePost, type: :command do
   subject { described_class.new(validation: validation, geocoder_client: geocoder) }
 
   before do
-    FactoryBot.create(:ads)
+    allow_any_instance_of(Sequel::Model).to receive(:save).and_return(save_result)
   end
 
+  let(:save_result) { OpenStruct.new(id: 5) }
   let(:validation) { Validations::CreatePayload.new }
   let(:geocoder) { instance_double(GeocoderService::Rpc::Client, geocoding: Success()) }
-
-  let(:success_geocoder_response) do
-    {
-      "lat" => "test_lat",
-      "lon" => "test_lon"
-    }
-  end
 
   let(:payload) do
     {

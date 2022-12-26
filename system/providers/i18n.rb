@@ -1,4 +1,4 @@
-Container.register_provider(:i18n) do |container|
+Container.register_provider(:i18n) do
   prepare do
     require "I18n"
 

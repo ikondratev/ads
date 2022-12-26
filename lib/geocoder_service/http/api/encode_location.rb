@@ -21,7 +21,7 @@ module GeocoderService
         private
 
         def geocoder_request(city)
-          l "GeocoderService::HTTP::API", action: :geocoder_request, city: city
+          l "[#{self.class.name}]", action: :geocoder_request, city: city
           @params = { "city": city }
           result = request(:post, REQUEST_URL)
 
@@ -29,7 +29,7 @@ module GeocoderService
 
           Success(result)
         rescue StandardError => e
-          le "GeocoderService::HTTP::API", e.message
+          le "[#{self.class.name}]", e.message
           Failure([:bad_request])
         end
 

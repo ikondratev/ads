@@ -5,11 +5,10 @@ module Posting
       include Import[
                 validation: "validations.update_coordinates"
               ]
-
       UPDATED_PARAMS = %i[lat lon].freeze
-
       # @param [Hash] payload
       def call(payload)
+        l "[#{self.class.name}]:", payload: payload
         params = yield validation.call(payload)
         yield update_post(params)
 
@@ -19,11 +18,11 @@ module Posting
       private
 
       def update_post(params)
-        l "Commands::UpdateCoordinates", action: :update_post, params: params
+        l "#{self.class.name}", action: :update_post, params: params
         ad = Posting::Models::Ad.find(id: params[:post_id])
         Success(ad.update_fields(params, %i[lon lat]))
       rescue StandardError => e
-        le "Commands::UpdateCoordinates", e.message
+        le "#{self.class.name}", e.message
         Failure([:update_coordinates_error])
       end
     end

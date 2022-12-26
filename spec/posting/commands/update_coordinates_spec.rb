@@ -1,10 +1,14 @@
-require "spec_helper"
+require "application_helper"
 
 describe Posting::Commands::UpdateCoordinates do
-  subject { described_class.new(ads_repo: ads_repo, validation: validation) }
+  subject { described_class.new(validation: validation) }
 
+  before do
+    allow(Sequel::Model).to receive(:find).and_return(ad)
+  end
+
+  let(:ad) { instance_double(Posting::Models::Ad, update_fields: true) }
   let(:payload) { { post_id: 1, lat: 0.123, lon: 0.125 } }
-  let(:ads_repo) { instance_double(Posting::Repositories::AdsRepo, update_by_id: 3) }
   let(:validation) { Validations::UpdateCoordinates.new }
 
   describe "#call" do
