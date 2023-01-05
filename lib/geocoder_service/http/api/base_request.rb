@@ -22,6 +22,9 @@ module GeocoderService
           raise "undefined method" unless AVAILABLE_METHODS[method]
 
           @connection.send(method, "#{@base_url}#{url}", @params, @headers)
+        rescue StandardError => e
+          le "Request error", e
+          Failure([:bad_request])
         end
       end
     end

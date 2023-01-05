@@ -4,10 +4,10 @@ module Posting
       include Dry::Monads[:result]
 
       def call
-        l "[#{self.class.name}]: started"
+        l "started"
         Success(Posting::Models::Ad.all)
       rescue StandardError => e
-        le "[#{self.class.name}]", e.message
+        le "Error show posts", e
         Failure([:show_error])
       end
     end

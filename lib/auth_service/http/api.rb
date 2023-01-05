@@ -5,7 +5,7 @@ module AuthService
       # @param [String] token
       # @return [Hash] result
       def auth(token)
-        l "[#{self.class.name}]", action: :auth, token: token
+        l "started", action: :auth, token: token
         result = @connection.post("#{@base_url}#{REQUEST_URL}") do |request|
           request.headers["Authorization"] = "#{token}"
         end
@@ -15,7 +15,7 @@ module AuthService
         user_id = result.body.dig("meta", "user_id")
         user_id.nil? ? Failure([:bad_request]) : Success(user_id: user_id)
       rescue StandardError => e
-        le "[#{self.class.name}]", e.message
+        le "Error auth", e
         Failure([:internal_error])
       end
     end

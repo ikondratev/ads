@@ -4,7 +4,7 @@ module AuthService
       # @param [String] token
       # @return [Dry::Monad]
       def auth(token)
-        l "[#{self.class.name}]", action: :auth, token: token
+        l "started", action: :auth, token: token
         payload = { token: token }.to_json
         start
         publish(payload, type: "token")
@@ -13,7 +13,7 @@ module AuthService
 
         Success(user_id: @user_id)
       rescue StandardError => e
-        le "[#{self.class.name}]", e.message
+        le "Error rpc auth", e
         Failure([:forbidden_error])
       end
     end

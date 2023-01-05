@@ -8,7 +8,7 @@ module Posting
       UPDATED_PARAMS = %i[lat lon].freeze
       # @param [Hash] payload
       def call(payload)
-        l "[#{self.class.name}]:", payload: payload
+        l "started", payload: payload
         params = yield validation.call(payload)
         yield update_post(params)
 
@@ -18,11 +18,11 @@ module Posting
       private
 
       def update_post(params)
-        l "#{self.class.name}", action: :update_post, params: params
+        l "started", action: :update_post, params: params
         ad = Posting::Models::Ad.find(id: params[:post_id])
         Success(ad.update_fields(params, %i[lon lat]))
       rescue StandardError => e
-        le "#{self.class.name}", e.message
+        le "Error update post", e
         Failure([:update_coordinates_error])
       end
     end

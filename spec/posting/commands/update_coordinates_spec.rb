@@ -29,5 +29,17 @@ describe Posting::Commands::UpdateCoordinates do
         expect(result.failure[0]).to be(:invalid_payload)
       end
     end
+
+    context "in case of error" do
+      before do
+        allow(Sequel::Model).to receive(:find).and_raise(StandardError)
+      end
+
+      it "should return falsey result" do
+        result = subject.call(payload)
+        expect { result }.not_to raise_error
+        expect(result.success?).to be_falsey
+      end
+    end
   end
 end

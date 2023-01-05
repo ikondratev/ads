@@ -15,7 +15,7 @@ module GeocoderService
 
             encode_city_params
           rescue StandardError => e
-            le "Extractors::EncodeLocationExtractor", e.message
+            le "Extract response encode location", e
             raise ExtractorError, e.message
           end
         end
