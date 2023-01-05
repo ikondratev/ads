@@ -14,6 +14,10 @@ gem 'dry-monads', '1.3'
 gem 'dry-schema', '1.9'
 gem 'dry-types', '1.5'
 gem 'dry-struct', '1.0'
+
+gem 'rack-ougai', '~> 0.3.0'
+gem 'amazing_print', '~> 1.4'
+
 gem 'rack', '~> 2.2', '>= 2.2.4'
 gem 'sequel', '~> 5.60', '>= 5.60.1'
 gem 'bunny', '~> 2.19'
@@ -27,8 +31,11 @@ gem 'puma', '~> 3.12.4'
 gem 'faraday'
 gem 'faraday_middleware'
 
-# Test group
-gem 'rspec', '~> 3.11'
-gem 'capybara'
-gem 'simplecov', require: false
-gem 'simplecov-json', require: false
+group :test do
+  gem 'ruby-debug-ide'
+  gem 'debase'
+  gem 'rspec', '~> 3.9.0'
+  gem 'factory_bot', '~> 5.2.0'
+  gem 'rack-test', '~> 1.1.0'
+  gem 'database_cleaner-sequel', '~> 1.8.0'
+end

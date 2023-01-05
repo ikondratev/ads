@@ -15,6 +15,8 @@ module HTTP
             { code: 422, error: { error_message: i18n.t(:validation_error, scope: "api.errors.request") } }
           when :encode_location_error
             { code: 422, error: { error_message: i18n.t(:encode_location_error, scope: "api.errors.request") } }
+          when :update_coordinates_error
+            { code: 422, error: { error_message: i18n.t(:update_coordinates_error, scope: "api.errors.request") } }
           when :creation_error
             { code: 503, error: { error_message: i18n.t(:creation_error, scope: "services.errors") } }
           when :show_error

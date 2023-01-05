@@ -19,4 +19,7 @@ require "dry/initializer"
 require "./system/container"
 require "./config/initializers/consumer"
 require "./config/initializers/connection"
+
+include System::Kernel
+
 Container.finalize!

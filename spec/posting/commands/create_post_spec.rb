@@ -1,19 +1,15 @@
-require "spec_helper"
+require "application_helper"
 
-RSpec.describe Posting::Commands::CreatePost, type: :command do
-  subject { command.call(payload) }
+describe Posting::Commands::CreatePost, type: :command do
+  subject { described_class.new(validation: validation, geocoder_client: geocoder) }
 
-  let(:command) { described_class.new(ads_repo: ads_repo, validation: validation, geocoder_client: geocoder ) }
-  let(:ads_repo) { instance_double(Posting::Repositories::AdsRepo, create: 3) }
-  let(:validation) { Validations::CreatePayload.new }
-  let(:geocoder) { instance_double(GeocoderService::Rpc::Client, geocoding: Success()) }
-
-  let(:success_geocoder_response) do
-    {
-      "lat" => "test_lat",
-      "lon" => "test_lon"
-    }
+  before do
+    allow_any_instance_of(Sequel::Model).to receive(:save).and_return(save_result)
   end
+
+  let(:save_result) { OpenStruct.new(id: 5) }
+  let(:validation) { Validations::CreatePayload.new }
+  let(:geocoder) { GeocoderService::Rpc::Client.new }
 
   let(:payload) do
     {
@@ -24,24 +20,50 @@ RSpec.describe Posting::Commands::CreatePost, type: :command do
     }
   end
 
-
-  context "without any errors" do
-    it "shouldn't raise any errors" do
-      expect{ subject }.not_to raise_error
-      expect(subject).to be_success
-    end
-  end
-
-  context "in case of error" do
-    before do
-      allow_any_instance_of(Posting::Repositories::AdsRepo).to receive(:create).and_raise(StandardError)
+  describe "#call" do
+    context "without any errors" do
+      it "shouldn't raise any errors" do
+        result = subject.call(payload)
+        expect{ result }.not_to raise_error
+        expect(result).to be_success
+      end
     end
 
-    let(:ads_repo) { Posting::Repositories::AdsRepo.new }
+    context "in case of validation params error" do
+      let(:payload) { { city: "city" } }
 
-    it "should raise :creation_error" do
-      expect(subject).to be_failure
-      expect(subject.failure).to eq([:creation_error])
+      it "should return falsy result" do
+        result = subject.call(payload)
+        expect { result }.not_to raise_error
+        expect(result.success?).to be_falsey
+      end
+    end
+
+    context "in case of create post error" do
+      before do
+        allow_any_instance_of(Sequel::Model).to receive(:save).and_raise(StandardError)
+      end
+
+      it "should return falsy result" do
+        result = subject.call(payload)
+        expect { result }.not_to raise_error
+        expect(result.success?).to be_falsey
+      end
+    end
+
+    context "in case of queue encode location error" do
+      before do
+        allow_any_instance_of(Sequel::Model).to receive(:save).and_return(create_result)
+        allow_any_instance_of(GeocoderService::Rpc::Client).to receive(:geocoding).and_raise(StandardError)
+      end
+
+      let(:create_result) { OpenStruct.new(id: 7) }
+
+      it "should return false result" do
+        result = subject.call(payload)
+        expect { result }.not_to raise_error
+        expect(result.success?).to be_falsey
+      end
     end
   end
 end

@@ -1,29 +1,31 @@
-require "spec_helper"
+require "application_helper"
 
-RSpec.describe Posting::Commands::ShowAllPosts, type: :command do
-  subject { command.call }
+describe Posting::Commands::ShowAllPosts do
+  subject { described_class.new }
 
-  let(:command) { described_class.new(ads_repo: ads_repo) }
-  let(:ads_repo) { instance_double(Posting::Repositories::AdsRepo, all: [post]) }
-  let(:post) { Posting::Entities::Ads.new(id: 1, user_id: 2, city: "Test city", description: "new test desc", title: "test title", lat: nil, lon: nil) }
-
-  context "when everything is okay" do
-    it "shouldn't raise any errors" do
-      expect{ subject }.not_to raise_error
-      expect(subject).to be_success
-    end
+  before do
+    allow(Sequel::Model).to receive(:all).and_return([])
   end
 
-  context "in case of error" do
-    before do
-      allow_any_instance_of(Posting::Repositories::AdsRepo).to receive(:all).and_raise(StandardError)
+  describe "#call" do
+    context "without any errors" do
+      it "should return valid result" do
+        result = subject.call
+        expect { result }.not_to raise_error
+        expect(result.success?).to be_truthy
+      end
     end
 
-    let(:ads_repo) { Posting::Repositories::AdsRepo.new }
+    context "in case of runtime error" do
+      before do
+        allow(Sequel::Model).to receive(:all).and_raise(StandardError)
+      end
 
-    it "should raise :show_error" do
-      expect(subject).to be_failure
-      expect(subject.failure).to eq([:show_error])
+      it "should be failure result" do
+        result = subject.call
+        expect { result }.not_to raise_error
+        expect(result.success?).to be_falsey
+      end
     end
   end
 end

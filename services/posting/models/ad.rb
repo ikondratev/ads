@@ -1,14 +1,9 @@
 module Posting
   module Models
     class Ad < Sequel::Model
-      include Import[
-                i18n: "locales.i18n",
-                model_validation: "validations.models.ad"
-              ]
-
       def validate
         super
-        result = model_validation.call(values)
+        result = Container["validations.models.ad"].call(values)
         errors.add(:invalid_model_validation) unless result.success?
       end
 

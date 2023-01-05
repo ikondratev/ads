@@ -1,4 +1,4 @@
-Container.register_provider(:http_configuration) do |container|
+Container.register_provider(:http_configuration) do
   prepare do
     require "hanami/action/configuration"
 

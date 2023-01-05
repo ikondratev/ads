@@ -1,19 +1,14 @@
 module Posting
   module Commands
     class ShowAllPosts
-      include Dry::Monads[:result, :try, :do]
+      include Dry::Monads[:result]
 
       def call
-        ads = yield find_posts
-        Success(ads)
-      end
-
-      private
-
-      def find_posts
-        Try[StandardError] do
-          Posting::Models::Ad.all
-        end.to_result.or(Failure([:show_error]))
+        l "started"
+        Success(Posting::Models::Ad.all)
+      rescue StandardError => e
+        le "Error show posts", e
+        Failure([:show_error])
       end
     end
   end

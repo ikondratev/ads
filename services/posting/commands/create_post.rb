@@ -3,42 +3,37 @@ module Posting
     class CreatePost
       include Dry::Monads[:result, :try, :do]
       include Import[
-                ads_repo: "services.posting.repositories.ads_repo",
                 validation: "validations.create_payload",
                 geocoder_client: "geocoder_service.rpc.client"
               ]
-
       # @param [Hash] payload
       # @return [Dry::Monad] result
       def call(payload)
+        l "started", payload: payload
         params = yield validation.call(payload)
         create_result = yield create_post(params)
-        yield encode_location(params[:city], create_result.user_id)
+        yield encode_location(params[:city], create_result.id)
 
         Success(:done)
-      rescue StandardError => e
-        puts "[CreatePost] message: #{e.message}"
-        Failure([:creation_error])
       end
 
       private
 
       def create_post(params)
-        Try[StandardError] do
-          # ads_repo.create(params)
-          ad = Posting::Models::Ad.new(params)
-          ad.save
-        end.to_result.or(
-          Failure([:creation_error])
-        )
+        l "create post", action: :create_post, params: params
+        ad = Posting::Models::Ad.new(params)
+        Success(ad.save)
+      rescue StandardError => e
+        le "Error created post", e
+        Failure([:creation_error])
       end
 
       def encode_location(city, post_id)
-        Try[StandardError] do
-          # geocoder_client.geocoding(city, post_id)
-        end.to_result.or(
-          Failure([:encode_location_error])
-        )
+        l "encode location", action: :encode_location, city: city, post_id: post_id
+        Success(geocoder_client.geocoding(city, post_id))
+      rescue StandardError => e
+        le "Error encode location", e
+        Failure([:encode_location_error])
       end
     end
   end

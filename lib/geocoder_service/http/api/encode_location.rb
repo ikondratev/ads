@@ -11,6 +11,7 @@ module GeocoderService
         # @param [String] city
         # @return [Integer] user_id
         def call(city)
+          l "started", city: city
           validated_params = yield validation.call(city: city)
           response = yield geocoder_request(validated_params[:city])
           geocodes = yield parse_response(response)
@@ -21,17 +22,10 @@ module GeocoderService
         private
 
         def geocoder_request(city)
-          Try[StandardError] do
-            @params = { "city": city }
-
-            result = request(:post, REQUEST_URL)
-
-            raise StandardError unless result.success?
-
-            result
-          end.to_result.or(
-            Failure([:bad_request])
-          )
+          l "geocode request", action: :geocoder_request, city: city
+          @params = { "city": city }
+          result = request(:post, REQUEST_URL)
+          result.success? ? Success(result) : Failure(result)
         end
 
         def parse_response(response)
